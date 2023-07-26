@@ -18,7 +18,13 @@ addpath('tyre_lib/')
 to_rad = pi/180;
 to_deg = 180/pi;
 
-%% LATERAL
+//  _        _  _____ _____ ____      _    _     
+// | |      / \|_   _| ____|  _ \    / \  | |    
+// | |     / _ \ | | |  _| | |_) |  / _ \ | |    
+// | |___ / ___ \| | | |___|  _ <  / ___ \| |___ 
+// |_____/_/   \_\_| |_____|_| \_\/_/   \_\_____|
+                                               
+
 %% Select tyre dataset
 %dataset path
 data_set_path = 'dataset/';
@@ -131,13 +137,21 @@ tyre_data.FX =  FX(smpl_range);
 tyre_data.FY =  FY(smpl_range);
 tyre_data.MZ =  MZ(smpl_range);
 tyre_data.IA =  IA(smpl_range)*to_rad;
+
 % Cutting out parts where SA is accumulating (around 0 and -0.068 rads)
+
 % SA_tol = 0.07*to_rad;
+
 % idx.cuttingzeros = 0.0*to_rad-SA_tol < tyre_data.SA & tyre_data.SA < 0.0*to_rad+SA_tol;
+
 % idx.cutting0068 =  -0.068-SA_tol < tyre_data.SA & tyre_data.SA < -0.068+SA_tol;
+
 % idx.cuttingcrap = ~idx.cuttingzeros & ~idx.cutting0068;
+
 % tyre_data = tyre_data( idx.cuttingcrap, : );
+
 %tyre_data.SA = -tyre_data.SA;
+
 % Extract points at constant inclination angle (camber)
 GAMMA_tol = 0.05*to_rad;
 idx.GAMMA_0 = 0.0*to_rad-GAMMA_tol < tyre_data.IA & tyre_data.IA < 0.0*to_rad+GAMMA_tol;
@@ -146,6 +160,7 @@ idx.GAMMA_2 = 2.0*to_rad-GAMMA_tol < tyre_data.IA & tyre_data.IA < 2.0*to_rad+GA
 idx.GAMMA_3 = 3.0*to_rad-GAMMA_tol < tyre_data.IA & tyre_data.IA < 3.0*to_rad+GAMMA_tol;
 idx.GAMMA_4 = 4.0*to_rad-GAMMA_tol < tyre_data.IA & tyre_data.IA < 4.0*to_rad+GAMMA_tol;
 idx.GAMMA_5 = 5.0*to_rad-GAMMA_tol < tyre_data.IA & tyre_data.IA < 5.0*to_rad+GAMMA_tol;
+
 for i = 310:565:length(tyre_data.IA)
     k=i;
     for j = k:1:k+320
@@ -156,7 +171,9 @@ for i = 310:565:length(tyre_data.IA)
         end
     end
 end
+
 idx.GAMMA_VAR = idx.GAMMA_VAR.';
+
 GAMMA_0  = tyre_data( idx.GAMMA_0, : );
 GAMMA_1  = tyre_data( idx.GAMMA_1, : );
 GAMMA_2  = tyre_data( idx.GAMMA_2, : );
@@ -164,6 +181,7 @@ GAMMA_3  = tyre_data( idx.GAMMA_3, : );
 GAMMA_4  = tyre_data( idx.GAMMA_4, : );
 GAMMA_5  = tyre_data( idx.GAMMA_5, : );
 GAMMA_VAR = tyre_data( idx.GAMMA_VAR, : );
+
 % Extract points at constant vertical load
 % Test data done at: 
 %  - 50lbf  ( 50*0.453592*9.81 =  223N )
@@ -244,6 +262,7 @@ P0 = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1];
 %    [pCy1 pDy1 pEy1 pEy3 pHy1 pKy1 pKy2  pVy1]
 lb = [  1,-1000,  -1000,  -1000, -1000, -1000, -1000];
 ub = [  2, 1000,   1000,   1000,  1000,  1000, 1000];
+
 % resid_pure_Fy returns the residual, so minimize the residual varying P. It
 % is an unconstrained minimization problem 
 options = optimset('MaxFunEvals',3.0e+10);
@@ -887,7 +906,14 @@ plot(SA_vec,MZ0_dfz_varGamma_vec22)
 plot(SA_vec,MZ0_dfz_varGamma_vec23)
 plot(SA_vec,MZ0_dfz_varGamma_vec24)
 plot(SA_vec,MZ0_dfz_varGamma_vec25)
-%% Longitudinal
+
+//  _                      _ _             _ _             _ 
+// | |    ___  _ __   __ _(_) |_ _   _  __| (_)_ __   __ _| |
+// | |   / _ \| '_ \ / _` | | __| | | |/ _` | | '_ \ / _` | |
+// | |__| (_) | | | | (_| | | |_| |_| | (_| | | | | | (_| | |
+// |_____\___/|_| |_|\__, |_|\__|\__,_|\__,_|_|_| |_|\__,_|_|
+//                   |___/                                   
+
 %% Select tyre dataset
 %dataset path
 data_set_path = 'dataset/';
@@ -1129,14 +1155,14 @@ plot(TData0.SL,FX0_guess,'-')
 % plot(TDataSub.KAPPA,FX0_guess,'x')
 
 % Guess values for parameters to be optimised
-%    [pCx1 pDx1 pEx1 pEx4  pHx1  pKx1  pVx1 
+%    [pCx1 pDx1 pEx1 pEx4  pHx1  pKx1  pVx1] 
 P0 = [  1,   2,   1,  0,   0,   1,   0]; 
 
 % NOTE: many local minima => limits on parameters are fundamentals
 % Limits for parameters to be optimised
 % 1< pCx1 < 2 
 % 0< pEx1 < 1 
-%    [pCx1 pDx1 pEx1 pEx4  pHx1  pKx1  pVx1 
+%    [pCx1 pDx1 pEx1 pEx4  pHx1  pKx1  pVx1] 
 lb = [1,   0.1,   0,   0,  -10,    0,   -10];
 ub = [2,    4,   1,   1,   10,   100,  10];
 
@@ -1618,8 +1644,6 @@ title('Combined lateral $G_{yk}$ factor')
 xlabel('$\kappa$ [-]')
 ylabel('$G_{yk}$ [-]')
 legend('$\alpha$ = -3 [deg]','$\alpha$ = -6 [deg]')
-
-
 
 
 %% Save tyre data structure to mat file
