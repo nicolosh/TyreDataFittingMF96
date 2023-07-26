@@ -7,4 +7,4 @@ In the first assignment each team had to fit the MF96 tyre model coefficients on
 
 ### Clarifications for repository readers
 In the folder MATLab we can find the main code developed during April 2023 to finish the work relative to this first assignment.
-In particular there is the [main file](MATLab/main_tyre_data_analysis.m) contating lots of code recalling lot of files in tyre_lib to deal with the different cases for fitting the forces and moments.
+In particular there is the [main file](MATLab/main_tyre_data_analysis.m) contating lots of code recalling lot of files in [tyre_lib](MATLab/tyre_lib) to deal with the different cases for fitting the forces and moments and for calculating some statistics relative the goodness of the fitting like RMSE and R^2.
