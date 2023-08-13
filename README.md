@@ -12,4 +12,4 @@ Furthermore, a bit of work was done also in [_Maple_](https://www.maplesoft.com/
 
 
 ## Final presentation and discussion of results
-In the folder [Report](Report) there is the final [presentation pdf](Report/HW_1___Vehicle_Dynamics___2022_2023.pdf) and the [power point presentation](Report/TyreFitting_2022-2023.pptx) for the oral discussion of this project related exam.
+In the folder [Report](Report) there is the final [presentation pdf](Report/HW_1___Vehicle_Dynamics___2022_2023.pdf) for the oral discussion of this project related exam.
